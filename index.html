@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Surpresa de namoradas💖</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  overflow-y:auto;
+  background:linear-gradient(135deg,#ff8fc7,#ff4f93);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+  position:relative;
+}
+
+/* CONTAINER */
+
+.container{
+  width:100%;
+  max-width:700px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  border-radius:30px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  position:relative;
+  z-index:10;
+  overflow:hidden;
+  margin:20px 0;
+}
+
+/* TEXTOS */
+
+h1,p{
+  color:white;
+}
+
+h1{
+  font-size:2rem;
+  line-height:1.4;
+  margin-bottom:25px;
+}
+
+.message{
+  line-height:1.8;
+  font-size:1.1rem;
+  margin-top:10px;
+}
+
+/* URSINHO */
+
+.bear{
+  font-size:90px;
+  margin-bottom:20px;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
+}
+
+/* TELAS */
+
+.screen{
+  display:none;
+  animation:fade 1s ease;
+}
+
+.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* BOTÕES */
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  min-height: 250px; /* Espaço interno para o botão correr dentro da div */
+  position: relative;
+  width: 100%;
+}
+
+button{
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  transition:0.3s;
+  font-weight:bold;
+}
+
+#yesBtn,
+#confirmBtn{
+  background:#ff007f;
+  color:white;
+  font-size:1.4rem;
+  padding:18px 40px;
+  box-shadow:0 6px 20px rgba(255,0,127,0.4);
+  z-index: 10;
+}
+
+#yesBtn:hover,
+#confirmBtn:hover{
+  transform:scale(1.08);
+}
+
+/* Botão Não configurado para se mover com position: absolute relativo à div .buttons */
+#noBtn{
+  background:white;
+  color:#ff007f;
+  padding:15px 30px;
+  font-size:1.2rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  transition: left 0.05s ease-out, top 0.05s ease-out;
+  z-index: 999;
+}
+
+/* CORAÇÕES */
+
+.heart{
+  position:fixed;
+  color:white;
+  opacity:0.7;
+  animation:float 6s linear infinite;
+  z-index:1;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(100vh);
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-120vh);
+    opacity:0;
+  }
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* PUZZLE */
+
+.puzzle-grid{
+  margin:30px auto 0;
+  width:280px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  padding:0;
+  background:transparent;
+}
+
+.piece{
+  aspect-ratio:1/1;
+  perspective:1000px;
+}
+
+.piece-inner{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:0.6s;
+}
+
+.piece.flipped .piece-inner{
+  transform:rotateY(180deg);
+}
+
+.piece-front,
+.piece-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  backface-visibility:hidden;
+  border-radius:0;
+}
+
+.piece-front{
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  color:#ff007f;
+}
+
+.piece-back{
+  transform:rotateY(180deg);
+}
+
+.piece-back img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* CARROSSEL */
+
+.carousel{
+  margin-top:30px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.slides{
+  width:100%;
+  overflow:hidden;
+}
+
+.slide{
+  width:100%;
+  border-radius:25px;
+  display:none;
+}
+
+.active-slide{
+  display:block;
+  animation:fade 0.6s ease;
+}
+
+.nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:white;
+  color:#ff007f;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:none;
+  font-size:1.5rem;
+  z-index:10;
+}
+
+.prev{
+  left:-10px;
+}
+
+.next{
+  right:-10px;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:600px){
+
+  h1{
+    font-size:1.6rem;
+  }
+
+  .bear{
+    font-size:75px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+    min-height: 280px;
+  }
+
+  #yesBtn,
+  #confirmBtn{
+    width:85%;
+    font-size:1.2rem;
+  }
+  
+  #noBtn {
+    font-size:1.2rem;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="romanticMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
+
+<div class="container">
+
+  <div id="screen1" class="screen active">
+
+    <div class="bear">🧸💖</div>
+
+    <h1>
+      Renata, aceita ser minha namorada? 💕
+    </h1>
+
+    <div class="buttons" id="buttonsContainer">
+
+      <button id="yesBtn">
+        SIM 💘
+      </button>
+
+      <button id="noBtn">
+        Não  😢
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="screen2" class="screen">
+
+    <div class="bear">😳💖</div>
+
+    <h1>
+      Tem certeza mesmo? 😳
+    </h1>
+
+    <p class="message">
+      Porque depois disso você vai ter que me aguentar
+      sendo apaixonada, carente e querendo beijo toda hora 💋
+    </p>
+
+    <br><br>
+
+    <button id="confirmBtn">
+      Tenho certeza 💖
+    </button>
+
+  </div>
+
+  <div id="screen3" class="screen">
+
+    <div class="bear">🧩💖</div>
+
+    <h1>
+      Descubra sua surpresa ✨
+    </h1>
+
+    <p class="message">
+      Clique nas peças para revelar a surpresa 😈💕
+    </p>
+
+    <div class="puzzle-grid">
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-1-column-1.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-1-column-2.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-1-column-3.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-2-column-1.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-2-column-2.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-2-column-3.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-3-column-1.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-3-column-2.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <div class="piece-inner">
+          <div class="piece-front">❓</div>
+          <div class="piece-back">
+            <img src="images/row-3-column-3.jpg">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="screen4" class="screen">
+
+    <div class="bear">🥹💖</div>
+
+    <h1>
+      UFAAA 😮‍💨💖
+    </h1>
+
+    <p class="message">
+      Pois essa era só a primeira surpresa...
+    </p>
+
+    <p class="message">
+      Agora arrume suas malas 🧳✨
+    </p>
+
+    <p class="message">
+      Porque amanhã você tem um compromisso comigo 💕
+    </p>
+
+    <div class="carousel">
+
+      <button class="nav prev" onclick="changeSlide(-1)">
+        ❮
+      </button>
+
+      <div class="slides">
+
+        <img class="slide active-slide"
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-1666138877831537131/original/d9639674-dd5b-41b9-abc9-2d41f9628317.jpeg?im_w=960">
+
+        <img class="slide"
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-1666138877831537131/original/43f4f5a5-2058-4ada-b071-9f0a4413b1b2.jpeg?im_w=720">
+
+        <img class="slide"
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-1666138877831537131/original/36b3ba8d-0c15-462e-a418-0acdee73377e.jpeg?im_w=960">
+
+        <img class="slide"
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-1666138877831537131/original/62c8e876-23c3-4feb-8be9-fbfc701b103b.jpeg?im_w=960">
+
+      </div>
+
+      <button class="nav next" onclick="changeSlide(1)">
+        ❯
+      </button>
+
+    </div>
+
+    <p class="message">
+      Nosso fim de semana juntas 💖
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+
+// ===== FUNÇÃO PARA TOCAR A MÚSICA =====
+const music = document.getElementById('romanticMusic');
+
+function playMusic() {
+  if (music.paused) {
+    music.play().catch(error => console.log("Aguardando interação."));
+  }
+}
+
+// ===== CORAÇÕES =====
+
+for(let i = 0; i < 30; i++){
+
+  const heart = document.createElement('div');
+
+  heart.classList.add('heart');
+
+  heart.innerHTML = '💖';
+
+  heart.style.left = Math.random() * 100 + 'vw';
+
+  heart.style.fontSize =
+    (Math.random() * 20 + 15) + 'px';
+
+  heart.style.animationDuration =
+    (Math.random() * 3 + 4) + 's';
+
+  document.body.appendChild(heart);
+
+}
+
+// ===== LÓGICA DO BOTÃO QUE FOGE APENAS DENTRO DA SUA DIV =====
+
+const noBtn = document.getElementById('noBtn');
+const areaBotoes = document.getElementById('buttonsContainer');
+let isFirstMove = true;
+
+function moverBotaoFugindo(e) {
+  const rectArea = areaBotoes.getBoundingClientRect();
+  const rectBotao = noBtn.getBoundingClientRect();
+
+  // Captura as coordenadas do mouse ou do toque na tela
+  const clienteX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clienteY = e.touches ? e.touches[0].clientY : e.clientY;
+
+  // Transforma as coordenadas globais do mouse em coordenadas relativas à div dos botões
+  const mouseRelativoX = clienteX - rectArea.left;
+  const mouseRelativoY = clienteY - rectArea.top;
+  
+  // Centro atual do botão relativo à div dos botões
+  const centroBotaoX = noBtn.offsetLeft + rectBotao.width / 2;
+  const centroBotaoY = noBtn.offsetTop + rectBotao.height / 2;
+
+  // Vetor de distância entre o mouse e o botão
+  let diffX = centroBotaoX - mouseRelativoX;
+  let diffY = centroBotaoY - mouseRelativoY;
+
+  const distancia = Math.sqrt(diffX * diffX + diffY * diffY);
+
+  // Raio de ativação (se chegar a menos de 100px ele foge)
+  if (distancia < 100) {
+    playMusic();
+
+    if (isFirstMove) {
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = noBtn.offsetLeft + 'px';
+      noBtn.style.top = noBtn.offsetTop + 'px';
+      isFirstMove = false;
+    }
+
+    // Velocidade de fuga rápida
+    const forca = 110; 
+
+    let moverX = (diffX / distancia) * forca;
+    let moverY = (diffY / distancia) * forca;
+
+    let novoX = noBtn.offsetLeft + moverX;
+    let novoY = noBtn.offsetTop + moverY;
+
+    // Limites internos estritos da div dos botões (com margem interna de 5px)
+    const limiteMinX = 5;
+    const limiteMaxX = rectArea.width - rectBotao.width - 5;
+    const limiteMinY = 5;
+    const limiteMaxY = rectArea.height - rectBotao.height - 5;
+
+    // Prende o botão estritamente dentro da div interna
+    if (novoX < limiteMinX) novoX = limiteMinX;
+    if (novoX > limiteMaxX) novoX = limiteMaxX;
+    if (novoY < limiteMinY) novoY = limiteMinY;
+    if (novoY > limiteMaxY) novoY = limiteMaxY;
+
+    noBtn.style.left = novoX + 'px';
+    noBtn.style.top = novoY + 'px';
+  }
+}
+
+// Escuta os movimentos
+document.addEventListener('mousemove', moverBotaoFugindo);
+document.addEventListener('touchmove', moverBotaoFugindo, { passive: false });
+
+// Se de alguma forma ela conseguir clicar, ele pula para um canto qualquer interno
+noBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  const rectArea = areaBotoes.getBoundingClientRect();
+  noBtn.style.left = (Math.random() * (rectArea.width - noBtn.offsetWidth - 10) + 5) + 'px';
+  noBtn.style.top = (Math.random() * (rectArea.height - noBtn.offsetHeight - 10) + 5) + 'px';
+});
+
+// ===== TROCA DE TELAS =====
+
+const screen1 = document.getElementById('screen1');
+const screen2 = document.getElementById('screen2');
+const screen3 = document.getElementById('screen3');
+const screen4 = document.getElementById('screen4');
+
+document
+.getElementById('yesBtn')
+.addEventListener('click', () => {
+  playMusic(); 
+  document.removeEventListener('mousemove', moverBotaoFugindo);
+  document.removeEventListener('touchmove', moverBotaoFugindo);
+  
+  screen1.classList.remove('active');
+  screen2.classList.add('active');
+});
+
+document
+.getElementById('confirmBtn')
+.addEventListener('click', () => {
+
+  screen2.classList.remove('active');
+  screen3.classList.add('active');
+
+});
+
+// ===== PUZZLE =====
+
+const pieces = document.querySelectorAll('.piece');
+
+let revealedPieces = 0;
+
+pieces.forEach(piece => {
+
+  piece.addEventListener('click', () => {
+
+    if(piece.classList.contains('flipped'))
+      return;
+
+    piece.classList.add('flipped');
+
+    revealedPieces++;
+
+    if(revealedPieces === 9){
+
+      setTimeout(() => {
+
+        screen3.classList.remove('active');
+
+        screen4.classList.add('active');
+
+        rainHearts();
+
+      }, 2500);
+
+    }
+
+  });
+
+});
+
+// ===== CHUVA DE CORAÇÕES =====
+
+function rainHearts(){
+
+  for(let i = 0; i < 50; i++){
+
+    const heart = document.createElement('div');
+
+    heart.innerHTML = '💖';
+
+    heart.style.position = 'fixed';
+
+    heart.style.left =
+      Math.random() * 100 + 'vw';
+
+    heart.style.top = '-20px';
+
+    heart.style.fontSize =
+      (Math.random() * 25 + 20) + 'px';
+
+    heart.style.animation =
+      `fall ${Math.random() * 3 + 2}s linear forwards`;
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    } , 5000);
+
+  }
+
+}
+
+// ===== CARROSSEL =====
+
+let currentSlide = 0;
+
+const slides =
+document.querySelectorAll('.slide');
+
+function changeSlide(direction){
+
+  slides[currentSlide]
+  .classList.remove('active-slide');
+
+  currentSlide += direction;
+
+  if(currentSlide < 0){
+    currentSlide = slides.length - 1;
+  }
+
+  if(currentSlide >= slides.length){
+    currentSlide = 0;
+  }
+
+  slides[currentSlide]
+  .classList.add('active-slide');
+
+}
+
+</script>
+
+</body>
+</html>
